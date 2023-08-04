@@ -14,15 +14,19 @@ defmodule SimpleGuardianAuthWeb.SettingsController do
     if conn.assigns[:current_user] != [] do
       render(conn, :get_user, user: conn.assigns.current_user)
     else
-      raise ErrorResponse.Unauthorized
+      {:error, :unauthorized}
     end
   end
 
   def get_user_by_id(conn, %{"id" => id}) do
-    case Accounts.get_account!(id) do
-      {:ok, account} -> render(conn, :get_user, user: account)
-      {:error, _} -> raise ErrorResponse.NotFound
+    try do
+      account = Accounts.get_account!(id)
+      render(conn, :get_user, user: account)
+    rescue
+      _  -> {:error, :not_found}
+      #Ecto.Query.CastError -> {:error, :not_found}
     end
+
   end
 
   def change_email(conn, %{"change_email" => params}) do

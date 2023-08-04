@@ -1,14 +1,14 @@
 defmodule SimpleGuardianAuthWeb.Router do
   use SimpleGuardianAuthWeb, :router
-  use Plug.ErrorHandler
+  # use Plug.ErrorHandler
 
-  def handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
-    conn |> json(%{errors: message}) |> halt()
-  end
+  # def handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
+  #   conn |> json(%{errors: message}) |> halt()
+  # end
 
-  def handle_errors(conn, %{reason: %{message: message}}) do
-    conn |> json(%{errors: message}) |> halt()
-  end
+  # def handle_errors(conn, %{reason: %{message: message}}) do
+  #   conn |> json(%{errors: message}) |> halt()
+  # end
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -24,12 +24,14 @@ defmodule SimpleGuardianAuthWeb.Router do
   end
 
   pipeline :auth do
-    plug SimpleGuardianAuthWeb.Security.Pipeline
+    #plug SimpleGuardianAuthWeb.Security.Pipeline
     plug SimpleGuardianAuthWeb.Security.SetCurrentUser
   end
 
   scope "/api", SimpleGuardianAuthWeb do
     pipe_through :api
+
+    resources "/products", ProductController, except: [:new, :edit]
 
     get "/account", AccountController, :test
     post "/create" , AccountController, :create

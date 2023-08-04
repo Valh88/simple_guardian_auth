@@ -22,8 +22,10 @@ defmodule SimpleGuardianAuthWeb.FallbackController do
     |> render(:"404")
   end
 
-  def call(conn, params) do
-    IO.inspect(params)
+  def call(conn, {:error, :unauthorized}) do
     conn
+    |> put_status(:unauthorized)
+    |> put_view(html: SimpleGuardianAuthWeb.ErrorHTML, json: SimpleGuardianAuthWeb.ErrorJSON)
+    |> render(:"401")
   end
 end
