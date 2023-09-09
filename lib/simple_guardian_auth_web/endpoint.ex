@@ -11,6 +11,10 @@ defmodule SimpleGuardianAuthWeb.Endpoint do
     same_site: "Lax"
   ]
 
+  socket "/socket", SimpleGuardianAuthWeb.UserSocket,
+    websocket: true,
+    longpoll: false
+
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
   # Serve at "/" the static files from "priv/static" directory.
@@ -47,5 +51,8 @@ defmodule SimpleGuardianAuthWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+
+  plug CORSPlug, origins: ["http://localhost:5173"]
+
   plug SimpleGuardianAuthWeb.Router
 end

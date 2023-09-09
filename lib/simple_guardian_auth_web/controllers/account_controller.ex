@@ -31,6 +31,8 @@ defmodule SimpleGuardianAuthWeb.AccountController do
         |> render(:account_token, %{account: account, token: token})
       {:error, :unauthorized} ->
         raise ErrorResponse.Unauthorized, message: "Email or Password incorrect."
+      {:error, :not_found} ->
+        {:error, :not_found}
     end
   end
 end

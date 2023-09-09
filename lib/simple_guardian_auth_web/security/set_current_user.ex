@@ -4,7 +4,7 @@ defmodule SimpleGuardianAuthWeb.Security.SetCurrentUser do
   """
   import Plug.Conn
   alias SimpleGuardianAuthWeb.Security.Guardian
-  alias SimpleGuardianAuth.Security.ErrorsResponse
+  alias SimpleGuardianAuthWeb.Security.ErrorResponse
 
   def init(_opt) do
   end
@@ -14,7 +14,7 @@ defmodule SimpleGuardianAuthWeb.Security.SetCurrentUser do
       conn
     else
       user = get_user(conn)
-      if user == nil, do: raise ErrorsResponse.Unauthorized
+      if user == nil, do: raise ErrorResponse.Unauthorized
       assign(conn, :current_user, user)
     end
   end

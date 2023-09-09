@@ -52,6 +52,7 @@ defmodule SimpleGuardianAuth.MixProject do
       {:credo, "~> 1.7.0"},
       {:guardian, "~> 2.3.1"},
       {:argon2_elixir, "~> 3.0"},
+      {:cors_plug, "~> 3.0.3"}
     ]
   end
 
